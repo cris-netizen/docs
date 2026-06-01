@@ -3,21 +3,24 @@
   "theme": "aspen",
   "name": "Puente OS",
   "colors": {
-    "primary": "#1be39b",
-    "light": "#0c8c5c",
+    "primary": "#363090",
+    "light": "#9f8ec3",
     "dark": "#040404"
   },
-  "favicon": "https://media.brand.dev/26d46f3d-dd05-44da-865d-61a4f9c59cdb.jpg",
+  "favicon": {
+    "light": "/images/Asset6@3x.png",
+    "dark": "/images/Asset7@3x.png"
+  },
   "logo": {
-    "light": "https://media.brand.dev/c2ac8bb2-e752-4dff-ae87-539ff23415e2.svg",
-    "dark": "https://media.brand.dev/c2ac8bb2-e752-4dff-ae87-539ff23415e2.svg",
-    "href": "https://puente.app"
+    "light": "/images/Asset4@3x.png",
+    "dark": "/images/Asset5@3x.png",
+    "href": "https://www.puente.xyz"
   },
   "navbar": {
     "links": [
       {
         "label": "Soporte",
-        "href": "mailto:soporte@puente.app"
+        "href": "mailto:octavio@puente.xyz"
       }
     ],
     "primary": {
@@ -74,5 +77,8 @@
   },
   "search": {
     "prompt": "Buscar en la documentación..."
+  },
+  "icons": {
+    "library": "fontawesome"
   }
 }
