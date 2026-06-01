@@ -1,0 +1,302 @@
+---
+title: "Agents: crea y publica agentes IA como widget embebible"
+sidebarTitle: "Agents"
+description: "Agents te permite crear agentes de IA conversacionales con prompt personalizado y publicarlos como widget de chat embebible en cualquier sitio web."
+icon: "robot"
+---
+
+**Agents** te permite crear agentes de IA conversacionales con un prompt personalizado, probarlos en tiempo real directamente desde la interfaz y publicarlos como un widget de chat embebible en cualquier sitio web. Sin código, sin infraestructura adicional — configura, prueba y despliega desde un solo lugar.
+
+---
+
+## Interfaz
+
+La pantalla está dividida en dos columnas redimensionables:
+
+```
+┌──────────────────────────┬──────────────────────────────────────┐
+│                          │                                      │
+│   Chat de Prueba         │   Configuración del Agente           │
+│   (columna izquierda)    │   (columna derecha)                  │
+│                          │                                      │
+└──────────────────────────┴──────────────────────────────────────┘
+                           ↑ drag handle (redimensionable)
+```
+
+- **Izquierda** — Chat en tiempo real para probar el agente con la configuración actual. No necesitas guardar antes de probar.
+- **Derecha** — Aquí defines el nombre, las instrucciones y el modelo del agente.
+
+<Tip>
+  Arrastra el divisor entre las dos columnas para ajustar el espacio según tu flujo de trabajo. El ancho mínimo de cada columna es 200 px y el máximo es 600 px.
+</Tip>
+
+---
+
+## Crear un agente
+
+<Steps>
+  <Step title="Abre Agents">
+    Desde el panel de Componentes de tu proyecto, haz clic en **+ Nuevo** y selecciona **Agent**.
+  </Step>
+  <Step title="Ponle un nombre al agente">
+    Escribe el nombre en el campo de la parte superior de la columna de configuración. Este nombre es obligatorio para poder guardar.
+  </Step>
+  <Step title="Define las instrucciones">
+    Elige entre el **Modo Inteligente** (campos estructurados) o el **Modo Manual** (textarea libre). Consulta las secciones siguientes para conocer las diferencias.
+  </Step>
+  <Step title="Selecciona el modelo">
+    Elige el modelo de IA que usará el agente. El modelo predeterminado es el recomendado para la mayoría de los casos.
+  </Step>
+  <Step title="Haz clic en Crear agente">
+    El agente queda guardado y listo para probarlo en el chat o publicarlo como widget.
+  </Step>
+</Steps>
+
+<Warning>
+  El nombre del agente es **obligatorio**. Si intentas guardar sin completarlo, el campo se resaltará en rojo y el guardado no se ejecutará.
+</Warning>
+
+---
+
+## Instrucciones — Modo Inteligente
+
+El Modo Inteligente divide el prompt en **6 campos estructurados** para que puedas mantener cada parte de las instrucciones de forma independiente y sin generar prompts monolíticos difíciles de actualizar.
+
+| Campo | Para qué sirve | Ejemplo |
+|---|---|---|
+| **Rol del Agente** | Define quién es el agente, su perfil y estilo de comunicación | *"Eres un asistente de ventas experto en SaaS"* |
+| **Tarea u Objetivo** | Describe qué debe lograr el agente en cada interacción | *"Tu tarea es calificar leads y agendar demos"* |
+| **Contexto y Entorno** | Información de fondo: empresa, producto, audiencia objetivo | *"Trabajas para Puente OS, plataforma de automatización"* |
+| **Guías y Buenas Prácticas** | Tono, estilo y estructura de las respuestas | *"Sé conciso. Usa listas cuando sea apropiado"* |
+| **Restricciones y Prohibiciones** | Lo que el agente **no** debe hacer bajo ninguna circunstancia | *"No inventes precios. No hagas promesas sin confirmar"* |
+| **Formato de Salida** | Cómo debe estructurar sus respuestas | *"Siempre termina con una pregunta de seguimiento"* |
+
+<Note>
+  Cada campo muestra una vista previa truncada del contenido cuando está colapsado, para que identifiques rápidamente qué hay en cada sección sin necesidad de expandirla.
+</Note>
+
+### Editar un campo
+
+Haz clic en el ícono **✏️** a la derecha del campo que quieras modificar. Se desplegará un textarea con el contenido actual. Cuando termines, haz clic en **∧** para colapsar el campo y continuar con los demás.
+
+---
+
+## Instrucciones — Modo Manual
+
+El Modo Manual ofrece un **textarea libre** donde puedes escribir o pegar el prompt completo directamente. Es útil cuando ya tienes un prompt afinado que quieres reutilizar o cuando prefieres control total sobre el texto.
+
+### Transiciones entre modos
+
+| Dirección | Qué ocurre |
+|---|---|
+| **Inteligente → Manual** | Los 6 campos estructurados se compilan en un único prompt con etiquetas `[ROLE]`, `[TASK]`, `[CONTEXT]`, `[GUIDELINES]`, `[RESTRICTIONS]` y `[FORMAT]`, y se cargan en el textarea |
+| **Manual → Inteligente** | El sistema intenta parsear las etiquetas `[TAG]` y distribuir el contenido en los campos correspondientes. Si el texto no contiene etiquetas, todo el contenido se asigna al campo **Contexto y Entorno** |
+
+<Tip>
+  Cambiar de modo **nunca borra tu trabajo**. Siempre se realiza una conversión automática del contenido, por lo que puedes alternar entre modos con total confianza.
+</Tip>
+
+---
+
+## Chat de prueba
+
+La columna izquierda incluye un chat que envía mensajes al modelo usando el prompt actual — **incluso si no has guardado los últimos cambios**. Esto te permite iterar rápidamente sin interrumpir el flujo.
+
+<Steps>
+  <Step title="Escribe tu mensaje">
+    Escribe en el campo de texto en la parte inferior del chat.
+  </Step>
+  <Step title="Envía el mensaje">
+    Presiona `Enter` o haz clic en el botón **→** para enviar.
+  </Step>
+  <Step title="Itera sobre el prompt">
+    Modifica las instrucciones en la columna derecha y vuelve a probar de inmediato. No necesitas guardar para que los cambios se reflejen en el chat de prueba.
+  </Step>
+</Steps>
+
+### Controles del chat
+
+- **↺** (ícono en el encabezado del chat) — Reinicia la conversación y borra todo el historial acumulado en la sesión actual.
+- **Historial de contexto** — Cada mensaje enviado incluye el historial de la conversación, por lo que el agente mantiene el contexto entre turnos.
+
+---
+
+## Publicar como widget
+
+Una vez guardado el agente, puedes publicarlo como un **widget de chat embebible** en cualquier sitio web: Webflow, Framer, WordPress, HTML personalizado, entre otros.
+
+### Abrir la configuración del widget
+
+Haz clic en el ícono **⊞** (Configurar Widget) ubicado en el pie de la columna de configuración. Se abrirá un modal con dos paneles: **Configuración** a la izquierda y **Vista Previa** a la derecha.
+
+### Secciones de configuración
+
+<AccordionGroup>
+  <Accordion title="Webhook">
+    Contiene la URL del agente en el backend. Se completa automáticamente con el formato:
+
+    ```
+    https://backend.../chat/{public_id}
+    ```
+
+    No necesitas modificar este campo a menos que uses una integración personalizada.
+  </Accordion>
+
+  <Accordion title="Marca">
+    Personaliza la identidad visual del widget:
+
+    - **Título** — Texto que aparece en la cabecera del chat
+    - **URL del Logo** — Enlace a la imagen de tu marca
+    - **Ancho / Alto del Logo** — Dimensiones en CSS (por ejemplo: `120px`, `35px`)
+    - **Texto de Bienvenida** — Título de la pantalla inicial antes de que el usuario escriba
+    - **Tiempo de Respuesta** — Subtítulo orientativo (por ejemplo: *"Respondemos siempre"*)
+    - **Placeholder del Input** — Texto guía dentro del campo de mensaje
+    - **Textos de botones** — Personaliza los textos de Enviar, Cargando, Error y Nueva Conversación
+  </Accordion>
+
+  <Accordion title="Mensajes">
+    - **Mensaje Inicial** — Lo que el agente envía automáticamente al abrir el chat por primera vez
+    - **Mensaje Proactivo** — Burbuja flotante que aparece antes de que el usuario abra el chat. Puedes posicionarla encima o al lado del botón del widget
+  </Accordion>
+
+  <Accordion title="Estilo">
+    - **Posición del Widget** — Derecha o izquierda de la pantalla
+    - **Distancia desde el fondo** — Separación del borde inferior, en CSS (por ejemplo: `20px`)
+    - **Colores** — Primario, secundario, fondo y fuente. Usa el selector visual o introduce el valor hexadecimal directamente
+  </Accordion>
+
+  <Accordion title="Markdown">
+    Activa el renderizado de Markdown en las respuestas del agente. Con esta opción habilitada, el agente puede devolver texto con **negrita**, listas, `código en línea`, encabezados y más.
+  </Accordion>
+
+  <Accordion title="Botones del Menú">
+    Agrega botones de acceso rápido en el chat. Cada botón puede ser de dos tipos:
+
+    - **URL** — Al hacer clic, abre un enlace externo en una pestaña nueva
+    - **Chat** — Al hacer clic, envía un mensaje predefinido al agente en nombre del usuario
+
+    Haz clic en **+ Agregar Botón** para añadir uno nuevo. Elimina cualquier botón con el ícono **✕** a su derecha.
+  </Accordion>
+</AccordionGroup>
+
+---
+
+## Obtener el código
+
+<Steps>
+  <Step title="Ajusta la configuración">
+    Modifica los parámetros del widget hasta que la vista previa lateral se vea exactamente como quieres.
+  </Step>
+  <Step title="Copia el snippet">
+    Haz clic en **Copiar Código**. El bloque de script completo se copiará en tu portapapeles.
+  </Step>
+  <Step title="Pégalo antes del cierre de </body>">
+    Abre el HTML de tu sitio web y pega el snippet justo antes de la etiqueta `</body>`. El widget aparecerá como una burbuja flotante en la esquina configurada.
+  </Step>
+</Steps>
+
+### Snippet completo del widget
+
+```html
+<script>
+window.ChatWidgetConfig = {
+  "webhook": { "url": "https://backend.../chat/{public_id}" },
+  "branding": {
+    "name": "Puente OS",
+    "welcomeText": "Hola, ¿en qué puedo ayudarte?",
+    "responseTimeText": "Respondemos siempre",
+    "logo": "",
+    "logoWidth": "120px",
+    "logoHeight": "35px",
+    "inputPlaceholder": "Escribe tu mensaje...",
+    "sendButtonText": "Enviar",
+    "loadingText": "Escribiendo...",
+    "errorText": "Error al enviar",
+    "newConversationText": "Nueva conversación"
+  },
+  "style": {
+    "primaryColor": "#0d0d0d",
+    "secondaryColor": "#ffffff",
+    "backgroundColor": "#f9f9f9",
+    "fontColor": "#111111",
+    "position": "right",
+    "bottomDistance": "20px"
+  },
+  "menu": {
+    "buttons": [
+      { "type": "url",  "label": "Visita nuestro sitio", "url": "https://ejemplo.com" },
+      { "type": "chat", "label": "Ver precios",          "message": "¿Cuáles son los planes disponibles?" }
+    ]
+  },
+  "markdown": { "enabled": true },
+  "initialMessage": "¡Hola! Soy tu asistente virtual. ¿En qué puedo ayudarte hoy?",
+  "proactiveMessage": "👋 ¿Tienes alguna pregunta? ¡Estoy aquí para ayudarte!"
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@2.4.0/dist/purify.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/octaviofv/chat_widget_puente/script_puente.js"></script>
+```
+
+<Tip>
+  Pega este código **justo antes del cierre del `</body>`** en cada página donde quieras que aparezca el widget. Si tu sitio usa un layout global, basta con añadirlo una sola vez.
+</Tip>
+
+---
+
+## Editar un agente existente
+
+Abre el agente desde el panel de Componentes. La configuración se cargará automáticamente desde el backend. El botón de guardado cambiará su texto a **Guardar cambios**, y solo se actualizarán los campos que hayas modificado desde la última vez que guardaste.
+
+---
+
+## Estados del botón Guardar
+
+| Estado | Texto mostrado | Color |
+|---|---|---|
+| **Normal** | "Crear agente" / "Guardar cambios" | Negro |
+| **Guardando** | "Guardando…" | Gris oscuro |
+| **Éxito** | "✓ Guardado" | Verde (visible durante 2,5 segundos) |
+
+Si ocurre un error al guardar, se muestra el mensaje de error en rojo junto al botón para que puedas identificar el problema rápidamente.
+
+---
+
+## Casos de uso comunes
+
+<CardGroup cols={2}>
+  <Card title="Soporte automatizado" icon="headset">
+    Embebe el widget en tu sitio para responder preguntas frecuentes de clientes 24/7, sin necesidad de intervención humana en cada consulta.
+  </Card>
+  <Card title="Calificador de leads" icon="filter">
+    Configura el agente para hacer preguntas de calificación y recopilar información clave antes de agendar una llamada o demo.
+  </Card>
+  <Card title="Asistente interno" icon="building">
+    Publica el widget en tus herramientas internas para que tu equipo consulte procesos, políticas y documentación en segundos.
+  </Card>
+  <Card title="Onboarding de usuarios" icon="graduation-cap">
+    Guía a los usuarios nuevos de tu producto paso a paso con un agente que responde dudas de configuración y primeros pasos.
+  </Card>
+</CardGroup>
+
+---
+
+## Preguntas frecuentes
+
+<AccordionGroup>
+  <Accordion title="¿Qué modelos de IA puedo usar?">
+    El selector de modelo muestra los modelos disponibles según tu plan actual (por ejemplo, Llama, GPT, Gemini). Si necesitas acceso a un modelo específico que no aparece en tu lista, escribe a soporte y te ayudamos a habilitarlo.
+  </Accordion>
+  <Accordion title="¿Puedo conectar el agente a una tabla del workspace?">
+    En esta versión, el agente responde exclusivamente con el contexto definido en el prompt. Para que use datos en vivo desde una tabla, configura un workflow que consulte la tabla, construya el contexto y lo pase al agente como parte del mensaje. Luego embebe el chat conectado a ese workflow.
+  </Accordion>
+  <Accordion title="¿Cuánto tiempo se guarda el historial del chat?">
+    El historial se mantiene durante la sesión activa del navegador del usuario final. No se persiste entre sesiones distintas a menos que configures una capa de almacenamiento personalizada.
+  </Accordion>
+  <Accordion title="¿El widget funciona en dispositivos móviles?">
+    Sí. El widget es completamente responsive por defecto. En pantallas pequeñas se abre en modo pantalla completa para mejorar la experiencia de lectura y escritura.
+  </Accordion>
+  <Accordion title="¿Puedo personalizar más el widget más allá de las opciones del modal?">
+    Todas las opciones de texto, colores, mensajes y botones son configurables desde el modal de configuración del widget. Para personalizaciones más avanzadas — como CSS personalizado o integración con eventos de JavaScript — escríbenos a soporte y exploramos las opciones contigo.
+  </Accordion>
+</AccordionGroup>

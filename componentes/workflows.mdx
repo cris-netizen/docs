@@ -1,0 +1,361 @@
+---
+title: "Workflows: automatizaciones visuales con Python e IA"
+sidebarTitle: "Workflows"
+description: "Constructor visual de automatizaciones con triggers, nodos de código Python, peticiones HTTP y agentes IA — todo integrado en tu workspace de Puente OS."
+---
+
+**Workflows** es el constructor visual de automatizaciones de Puente OS. Diseña flujos arrastrando nodos en un canvas, conéctalos con líneas y configura cada paso mediante formularios dinámicos o código Python. Dispara el flujo manualmente, a través de un webhook o por programación con cron. Es similar a Make o Zapier, pero sin salir de tu workspace y con acceso directo a todas tus tablas, credenciales y agentes IA.
+
+---
+
+## Anatomía del canvas
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  ← Volver   📄 Nombre del escenario          [Activo ●]    │
+├─────────────────────────────────────────────────────────────┤
+│                                                             │
+│   ┌──────────────┐                                          │
+│   │  ⚡ Trigger  │  ← Nodo de inicio (siempre arriba)       │
+│   └──────┬───────┘                                          │
+│          │                                                  │
+│   ┌──────▼───────┐                                          │
+│   │  🔗 Acción   │                                          │
+│   └──────┬───────┘                                          │
+│          │                                                  │
+│   ┌──────▼───────┐                                          │
+│   │  </> Código  │                                          │
+│   └──────────────┘                                          │
+│                                                             │
+├─────────────────────────────────────────────────────────────┤
+│  [💬 IA] [+ Paso] [⬡ Alinear] [💬 Comentario] [Guardar] [▶]│
+└─────────────────────────────────────────────────────────────┘
+```
+
+### Navegación
+
+| Acción | Cómo hacerlo |
+|---|---|
+| Mover el canvas | Haz clic y arrastra el fondo |
+| Hacer zoom | Usa la rueda del mouse sobre el canvas |
+| Centrar la vista | Haz clic en el botón de controles (esquina inferior izquierda) |
+| Mover un nodo | Haz clic y arrastra el nodo |
+| Seleccionar un nodo | Haz clic sobre el nodo |
+
+---
+
+## Tipos de nodo
+
+<CardGroup cols={2}>
+  <Card title="Trigger" icon="bolt">
+    Punto de inicio del flujo. Elige entre Manual, Webhook o Schedule (Cron). Solo puede existir uno por flujo y no se puede eliminar.
+  </Card>
+  <Card title="Acción" icon="plug">
+    Integraciones predefinidas como enviar un email, escribir en una tabla o ejecutar una petición HTTP.
+  </Card>
+  <Card title="HTTP Request" icon="globe">
+    Realiza peticiones HTTP con un editor estilo Postman. Soporta importación directa desde cURL.
+  </Card>
+  <Card title="Código Python" icon="code">
+    Escribe lógica personalizada en un sandbox Python con syntax highlighting y asistente IA integrado.
+  </Card>
+  <Card title="Agente IA" icon="robot">
+    Ejecuta un prompt contra un modelo de lenguaje con modo estructurado (Smart) o texto libre (Manual).
+  </Card>
+  <Card title="Comentario" icon="note-sticky">
+    Añade anotaciones visuales al canvas para documentar y organizar tu flujo.
+  </Card>
+</CardGroup>
+
+---
+
+## Trigger — el punto de inicio
+
+Solo puede existir **un trigger** por flujo. Define cómo y cuándo se dispara tu automatización.
+
+### Manual (Run Once)
+
+Sin configuración adicional. Haz clic en **▶ Ejecutar** en la toolbar para disparar el flujo. Ideal para pruebas puntuales o flujos que ejecutas manualmente cuando los necesitas.
+
+### Webhook
+
+Genera una URL que puedes registrar en sistemas externos. Cualquier petición `POST` a esa URL dispara el flujo y el body queda disponible como variable en los nodos siguientes:
+
+```
+https://api.puente.app/workflows/abc123/webhook
+```
+
+<Warning>
+  El workflow debe estar **guardado** antes de que la URL del webhook sea funcional. Si la URL no responde, verifica que hayas guardado el flujo al menos una vez.
+</Warning>
+
+### Schedule (Cron)
+
+Programa el flujo para que se ejecute automáticamente en los horarios que definas.
+
+| Campo | Descripción |
+|---|---|
+| **Expresión Cron** | Define cuándo se ejecuta. Por ejemplo, `0 9 * * 1-5` = lunes a viernes a las 9:00 AM |
+| **Timezone** | Zona horaria de referencia, como `America/Santiago` o `America/Mexico_City` |
+
+Para activar el cron, guarda el flujo primero y luego haz clic en **Activar**.
+
+---
+
+## Nodos de Acción
+
+Cada nodo de Acción ejecuta una integración predefinida. Al hacer clic en ✏️ se abre un panel lateral con formularios específicos de esa acción. Los tipos de campo que puedes encontrar son:
+
+| Tipo de campo | Cómo se muestra |
+|---|---|
+| `string` | Textarea con Variable Picker integrado |
+| `number` | Input numérico |
+| `dropdown` | Selector con opciones predefinidas |
+| `boolean` | Toggle activar/desactivar |
+| `json` | Textarea monospace para estructuras JSON |
+| `credential` | Input protegido con botón 👁 para revelar |
+
+Haz clic en **Guardar** para conservar la configuración sin ejecutar, o en **Ejecutar** para correr ese nodo de forma aislada.
+
+---
+
+## Nodo de Código (Python)
+
+Usa este nodo cuando necesites lógica personalizada que no cubre ninguna acción predefinida. El editor incluye syntax highlighting y se ejecuta en un sandbox seguro.
+
+Referencia los outputs de nodos anteriores con la sintaxis `{{context_key.campo}}`:
+
+```python
+# Si fetch_datos_1 retornó: { "nombre": "Ana", "saldo": 1500 }
+
+cliente = "{{fetch_datos_1.nombre}}"
+saldo = {{fetch_datos_1.saldo}}
+
+if saldo > 1000:
+    return {"status": "vip", "cliente": cliente}
+else:
+    return {"status": "regular", "cliente": cliente}
+```
+
+El nodo también incluye un **asistente IA integrado**: descríbele lo que necesitas en lenguaje natural y él genera o modifica el código por ti. Útil para no escribir Python desde cero.
+
+---
+
+## Nodo de Agente IA
+
+Ejecuta un prompt contra un modelo de lenguaje. Elige el modo que mejor se adapte a tu caso:
+
+<Tabs>
+  <Tab title="Smart Mode">
+    Completa un formulario estructurado con los siguientes campos:
+
+    - **Rol** — Define quién es el agente (por ejemplo, "analista de datos experto")
+    - **Tarea** — Describe qué debe hacer concretamente
+    - **Contexto** — Proporciona los datos o antecedentes necesarios
+    - **Guías** — Indica el tono, estilo y buenas prácticas que debe seguir
+    - **Restricciones** — Indica qué NO debe hacer o qué límites debe respetar
+    - **Output** — Especifica el formato de respuesta esperado (JSON, texto, lista, etc.)
+
+    Usa este modo para prompts complejos donde necesitas una separación clara entre instrucción y contexto.
+  </Tab>
+  <Tab title="Manual Mode">
+    Escribe el prompt completo en un textarea libre, exactamente como quieras enviarlo al modelo.
+
+    Usa este modo para iterar rápido o cuando ya tienes un prompt bien afinado que no necesita estructura adicional.
+  </Tab>
+</Tabs>
+
+---
+
+## Sistema de variables `{{ }}`
+
+Todos los campos de texto soportan referencias a los outputs de nodos anteriores mediante la sintaxis de dobles llaves.
+
+### Sintaxis
+
+```
+{{context_key.campo.subcampo}}
+```
+
+El `context_key` se construye a partir del **label** del nodo más su **número de secuencia**:
+
+| Nodo | Label | Nº secuencia | Context Key |
+|---|---|---|---|
+| Trigger | `run_once` | (ninguno) | `run_once` |
+| Primer paso | `fetch_datos` | `1` | `fetch_datos_1` |
+| Segundo paso | `procesar` | `2` | `procesar_2` |
+| Tercer paso | `enviar_email` | `3` | `enviar_email_3` |
+
+### Ejemplo
+
+Si el nodo `fetch_datos_1` retorna `{ "nombre": "Ana", "email": "ana@empresa.com" }`, en cualquier nodo posterior puedes usar:
+
+```
+Asunto: Hola {{fetch_datos_1.nombre}}
+Destinatario: {{fetch_datos_1.email}}
+```
+
+### Variable Picker
+
+Haz clic en **`{ } Variables`** en cualquier campo de texto para abrir el picker. Muestra todos los outputs disponibles de los nodos anteriores (upstream). Selecciona el que necesites y se inserta automáticamente en el campo.
+
+---
+
+## Conectar nodos
+
+<Steps>
+  <Step title="Localiza los handles de conexión">
+    Cada nodo tiene dos puntos de conexión: el **handle de salida** en su parte inferior y el **handle de entrada** en su parte superior.
+  </Step>
+  <Step title="Arrastra de salida a entrada">
+    Pasa el cursor sobre el handle de salida del nodo origen hasta que cambie de color. Haz clic, mantén presionado y arrastra hacia el handle de entrada del nodo destino.
+  </Step>
+  <Step title="Suelta para crear la conexión">
+    Al soltar sobre el handle de entrada, se crea la conexión. A partir de ese momento, el nodo destino puede acceder a los outputs del nodo origen como variables.
+  </Step>
+</Steps>
+
+### Indicadores visuales durante la conexión
+
+| Color | Significado |
+|---|---|
+| Borde oscuro | Estado normal del nodo |
+| Verde | Conexión válida — puedes soltar aquí |
+| Rojo | Conexión inválida — no se puede conectar |
+
+Para **eliminar una conexión**, haz clic en la línea que une dos nodos y presiona `Delete` o `Backspace`.
+
+---
+
+## Guardar y versionar
+
+### Primer guardado
+
+Al guardar por primera vez con el botón **Guardar** o `Cmd/Ctrl + S`:
+
+1. Se crea el flujo y queda disponible para ejecutarse
+2. Se registra como versión 1 con un identificador único
+3. Aparece la barra superior con el nombre editable del escenario
+
+### Guardados posteriores
+
+Cada guardado crea una **nueva versión** del mismo flujo (v2, v3, etc.). La versión más reciente es la activa por defecto, y puedes consultar el historial de versiones desde la toolbar.
+
+### Estados del flujo
+
+| Estado | Descripción |
+|---|---|
+| `draft` | Borrador — el flujo está en construcción y no se ejecuta externamente |
+| `active` | Habilitado — el flujo responde a triggers externos (webhooks, cron) |
+| `inactive` | Deshabilitado temporalmente sin perder la configuración |
+
+<Note>
+  Para triggers de tipo **Schedule**, activar el flujo registra el cron automáticamente. Asegúrate de guardar el flujo antes de activarlo.
+</Note>
+
+---
+
+## Ejecutar el flujo
+
+Haz clic en **▶ Ejecutar** en la toolbar inferior para lanzar el flujo completo.
+
+### Qué ocurre al ejecutar
+
+1. El canvas se bloquea para evitar ediciones durante la ejecución
+2. Los nodos se ejecutan en orden de arriba hacia abajo según las conexiones
+3. Cada nodo transita por los estados: `pending → running → completed` o `failed`
+4. Al finalizar, el panel de Resultados se abre automáticamente con los outputs de cada nodo
+
+### Comportamiento ante errores
+
+Cada nodo tiene un ajuste `on_error` que define qué pasa si falla:
+
+| Valor | Comportamiento |
+|---|---|
+| **Stop** (default) | Si el nodo falla, el flujo se detiene y los nodos siguientes quedan en `pending` |
+| **Continue** | Si el nodo falla, registra el error y continúa ejecutando el siguiente nodo |
+
+### Ejecutar nodos individualmente
+
+Desde el panel de cualquier nodo (✏️ → **Ejecutar**), puedes correr ese nodo de forma aislada. El resultado queda disponible como variable para los nodos siguientes en la misma sesión. Útil para probar y depurar paso a paso sin ejecutar el flujo completo.
+
+---
+
+## Panel de Resultados e Historial
+
+### Resultados del nodo
+
+Al ejecutar un nodo, el panel inferior muestra:
+
+- **Resultado** — Output en JSON con árbol interactivo expandible
+- **Logs** — stdout y stderr del nodo
+- **Error** — Mensaje de error detallado si el nodo falló
+- **Historial** — Ejecuciones anteriores del nodo en la sesión actual
+
+### Historial completo del flujo
+
+Accede desde el botón **Historial** en la toolbar. Muestra todas las ejecuciones del flujo ordenadas de más reciente a más antigua, con su estado final y duración.
+
+---
+
+## Asistente IA (ChatPanel)
+
+Haz clic en **💬 IA** en la toolbar para abrir el panel lateral del asistente. Desde ahí puedes:
+
+- **Generar un flujo completo** — Descríbelo en lenguaje natural y el asistente crea los nodos por ti
+- **Modificar nodos existentes** — Por ejemplo: "agrega un paso que envíe un email si el saldo es mayor a 1000"
+- **Depurar errores** — Por ejemplo: "¿por qué está fallando el nodo 2?"
+
+<Tip>
+  El asistente tiene contexto del flujo actual y de todas las integraciones disponibles en tu workspace. Cuanto más específico seas en tu descripción, mejores serán los nodos que genere.
+</Tip>
+
+---
+
+## Bookmarks
+
+Marca cualquier nodo como **favorito** (⭐) para reutilizarlo en otros flujos sin tener que configurarlo desde cero. Accede al panel de bookmarks desde la toolbar y arrastra el nodo guardado al canvas cuando lo necesites.
+
+---
+
+## Importar y exportar escenarios
+
+| Acción | Cómo hacerlo |
+|---|---|
+| **Exportar** | Toolbar inferior → **Exportar** → descarga un archivo JSON con la definición completa del flujo |
+| **Importar** | Toolbar inferior → **Importar** → sube el archivo JSON o pega el contenido directamente |
+
+Usa estas opciones para compartir flujos entre workspaces o para respaldar versiones específicas antes de hacer cambios importantes.
+
+---
+
+## Atajos útiles
+
+| Atajo | Acción |
+|---|---|
+| `Cmd/Ctrl + S` | Guardar el flujo |
+| `Delete` / `Backspace` | Eliminar el nodo o la conexión seleccionada |
+| `Cmd/Ctrl + Z` | Deshacer la última acción |
+| `Cmd/Ctrl + Shift + Z` | Rehacer la última acción deshecha |
+
+---
+
+## Preguntas frecuentes
+
+<AccordionGroup>
+  <Accordion title="¿Cuánto tiempo puede correr un flujo?">
+    El timeout por defecto es de **5 minutos por nodo**. Si tu flujo necesita más tiempo, divide la lógica en múltiples workflows encadenados mediante triggers de tipo Webhook.
+  </Accordion>
+  <Accordion title="¿Qué pasa si el flujo falla a mitad de la ejecución?">
+    Depende del ajuste `on_error` de cada nodo. Con la configuración por defecto (`Stop`), los nodos siguientes quedan en estado `pending` y el flujo se marca como `failed`. Revisa el mensaje de error exacto en el panel de Resultados para identificar el nodo que falló.
+  </Accordion>
+  <Accordion title="¿Puedo programar reintentos automáticos?">
+    Sí. En la configuración de cada nodo de Acción puedes activar reintentos con backoff exponencial. Por defecto, el máximo es de 3 intentos antes de marcar el nodo como `failed`.
+  </Accordion>
+  <Accordion title="¿Los workflows tienen límites de ejecución (rate limits)?">
+    Sí, los límites dependen de tu plan. Los triggers de tipo Schedule tienen una frecuencia mínima de 1 minuto entre ejecuciones. Escribe a soporte para consultar los límites específicos de tu plan.
+  </Accordion>
+  <Accordion title="¿Cómo conecto un workflow a una tabla?">
+    Para **escuchar cambios en una tabla**, usa el trigger con subtipo **Fila modificada** o **Fila agregada** y selecciona la tabla que quieres observar. Para **escribir o leer datos**, usa los nodos de Acción `Insertar fila`, `Actualizar fila` o `Leer filas` en cualquier paso del flujo.
+  </Accordion>
+</AccordionGroup>

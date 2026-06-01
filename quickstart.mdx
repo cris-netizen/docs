@@ -1,0 +1,138 @@
+---
+title: "Primeros pasos en Puente OS: flujo end-to-end en 5 min"
+sidebarTitle: "Quickstart"
+description: "Crea una tabla, conéctala a una app, automatiza un workflow y explora agentes IA — todo en un solo workspace en menos de 5 minutos."
+---
+
+Puente OS unifica la gestión operativa y la construcción de software interno en un solo lugar. En esta guía vas a crear una tabla de pedidos, conectarla a una app visual generada con IA, configurar un workflow que envíe un correo automático cuando un pedido cambie de estado, y conocer cómo agregar un agente IA como paso siguiente.
+
+<Note>
+  Para seguir esta guía necesitas una cuenta activa en Puente OS y acceso a un workspace. Si aún no tienes acceso, escríbenos a soporte@puente.app y te ayudamos a empezar.
+</Note>
+
+---
+
+## Paso 1 — Crear un proyecto
+
+<Steps>
+  <Step title="Abre Puente Menu">
+    Al iniciar sesión llegas a la vista **Home**, donde se listan todos los proyectos de tu equipo. Desde aquí controlas tanto las tareas operativas como los componentes de software que construyas.
+  </Step>
+  <Step title="Crea un proyecto nuevo">
+    Haz clic en **+ Nuevo proyecto**, asígnalo a un equipo (por ejemplo, *Operaciones*), dale un nombre descriptivo como `Demo onboarding` y guarda.
+  </Step>
+  <Step title="Entra al proyecto">
+    Haz clic en la tarjeta del proyecto. Verás dos áreas principales: **Tareas** (tablero Kanban) y **Componentes** (Apps, Tablas, Workflows y Agentes).
+  </Step>
+</Steps>
+
+<Tip>
+  Todo componente que crees dentro de un proyecto queda agrupado allí. Puedes localizarlos rápidamente filtrando por proyecto desde el panel global de Componentes.
+</Tip>
+
+---
+
+## Paso 2 — Crear tu primera tabla
+
+<Steps>
+  <Step title="Abre Tables">
+    En la pestaña **Componentes** del proyecto, haz clic en **+ Nuevo** y elige **Tabla**.
+  </Step>
+  <Step title="Define el esquema">
+    Ponle el nombre `pedidos` y agrega las siguientes columnas:
+
+    | Columna   | Tipo                                        |
+    |-----------|---------------------------------------------|
+    | `cliente` | Texto                                       |
+    | `monto`   | Número                                      |
+    | `estado`  | Select (`pendiente`, `pagado`, `enviado`)   |
+    | `fecha`   | Fecha                                       |
+
+    Haz clic en **+ Columna** para cada campo, selecciona el tipo en el desplegable y confirma.
+  </Step>
+  <Step title="Agrega filas de prueba">
+    Haz clic en **+ Fila** e ingresa entre 3 y 5 pedidos de ejemplo. Si ya tienes datos, usa el botón **Importar** para subir un archivo CSV directamente.
+  </Step>
+</Steps>
+
+<Tip>
+  El tipo **Select** te permite definir opciones fijas de antemano. Estas opciones serán las mismas que usarás después para filtrar el trigger del workflow en el Paso 4.
+</Tip>
+
+---
+
+## Paso 3 — Construir una app conectada
+
+<Steps>
+  <Step title="Abre App Builder">
+    En la pestaña **Componentes** del proyecto, haz clic en **+ Nuevo** y elige **App**.
+  </Step>
+  <Step title="Describe tu app en lenguaje natural">
+    En el campo de texto escribe lo que necesitas, por ejemplo:
+
+    > "Una vista de pedidos con tabla principal, filtros por estado y un panel lateral que muestre el detalle al hacer clic en una fila."
+
+    Presiona **Enviar** (▲) o `Enter`. El asistente IA generará la interfaz automáticamente.
+  </Step>
+  <Step title="Conecta la tabla de pedidos">
+    En el panel **Datos** de la derecha, selecciona la tabla `pedidos` que creaste en el paso anterior. La vista previa se actualizará con tus datos reales al instante.
+  </Step>
+  <Step title="Publica la app">
+    Haz clic en **Compartir** y copia el enlace generado. Cualquier persona con acceso al workspace puede usar la app desde ese momento.
+  </Step>
+</Steps>
+
+<Warning>
+  El enlace de publicación es accesible para todos los miembros del workspace. Si la app contiene datos sensibles, revisa los permisos del workspace antes de compartirlo.
+</Warning>
+
+---
+
+## Paso 4 — Automatizar con un workflow
+
+<Steps>
+  <Step title="Abre Workflows">
+    En la pestaña **Componentes** del proyecto, haz clic en **+ Nuevo** y elige **Workflow**.
+  </Step>
+  <Step title="Define el trigger">
+    Selecciona el trigger **"Fila modificada en tabla"**, elige la tabla `pedidos` y aplica el filtro `estado = pagado`. El workflow se activará cada vez que una fila cumpla esa condición.
+  </Step>
+  <Step title="Agrega un nodo de acción: Email">
+    Arrastra un nodo **Email** al lienzo y conéctalo al trigger. En el cuerpo del mensaje usa las variables dinámicas del trigger para personalizar el correo:
+
+    ```
+    Hola {{ trigger.cliente }},
+
+    Tu pedido por ${{ trigger.monto }} ha sido confirmado como pagado.
+    ¡Gracias por tu compra!
+    ```
+  </Step>
+  <Step title="Guarda y activa el workflow">
+    Haz clic en **Guardar** y luego en **Activar**. Para probarlo, ve a la tabla `pedidos`, cambia el estado de una fila a `pagado` y verifica que el correo llegue correctamente.
+  </Step>
+</Steps>
+
+<Tip>
+  Las variables con la sintaxis `{{ }}` están disponibles en todos los nodos del workflow. Puedes encadenar datos entre nodos para construir automatizaciones más complejas.
+</Tip>
+
+---
+
+## ¿Qué sigue?
+
+Ya construiste un flujo completo end-to-end en Puente OS. Estos son los siguientes pasos recomendados para profundizar:
+
+<CardGroup cols={2}>
+  <Card title="Agregar un agente IA" icon="robot" href="/componentes/agents">
+    Integra un chatbot que responda preguntas de tus clientes sobre el estado de sus pedidos directamente desde la app.
+  </Card>
+  <Card title="Gestionar tareas del proyecto" icon="list-check" href="/componentes/menu">
+    Organiza el trabajo de tu equipo con tableros Kanban, asignaciones y ciclos de sprints dentro del mismo proyecto.
+  </Card>
+  <Card title="Conceptos fundamentales" icon="book" href="/essentials/conceptos">
+    Entiende el modelo mental de Puente OS: proyectos, componentes, workspaces y cómo se relacionan entre sí.
+  </Card>
+  <Card title="Atajos de teclado" icon="keyboard" href="/recursos/atajos">
+    Navega y opera el workspace más rápido con la referencia completa de atajos de teclado.
+  </Card>
+</CardGroup>

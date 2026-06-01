@@ -1,0 +1,200 @@
+---
+title: "Puente Menu: organiza proyectos, tareas y componentes"
+sidebarTitle: "Menu"
+description: "El panel central de navegación del workspace: gestiona proyectos, organiza tareas y accede a todos tus componentes desde un solo lugar."
+---
+
+**Puente Menu** es el panel desde el que organizas y navegas todo tu workspace. Cada componente que construyes —Apps, Tablas, Workflows, Agents— vive dentro de un proyecto, y cada proyecto tiene sus propias tareas. Desde aquí puedes crear proyectos, gestionar el trabajo de tu equipo y abrir cualquier componente con un solo clic.
+
+## Vista general
+
+El Menu opera en dos niveles: el **Home**, donde ves todos tus proyectos, y el **Detalle de proyecto**, donde gestionas sus tareas y componentes.
+
+```
+HOME (lista de proyectos)
+  ↓ clic en un proyecto
+DETALLE DEL PROYECTO
+  ├── Tareas   (Kanban / Lista)
+  └── Componentes  (Apps · Tables · Workflows · Agents)
+```
+
+---
+
+## Vista Home
+
+Al abrir el workspace llegas al Home con la lista de proyectos activos de tu equipo. El proyecto especial **"Todos"** (ALL) aparece siempre en primer lugar y agrupa todos los componentes del workspace sin importar a qué proyecto pertenecen.
+
+### Controles principales
+
+| Control | Qué hace |
+|---|---|
+| **Buscador** | Filtra proyectos por nombre o descripción en tiempo real |
+| **Vista Tabla / Tarjetas** | Alterna entre lista compacta y grid visual con estadísticas |
+| **Ordenar** | En vista tabla, haz clic en las cabeceras de columna para reordenar |
+| **Nuevo Proyecto** | Abre el formulario de creación desde la esquina superior derecha |
+
+### Qué muestra cada tarjeta de proyecto
+
+- Nombre y descripción del proyecto
+- Fecha de creación
+- Contadores por tipo de componente (Apps, Workflows, Tablas, Agents)
+- Menú `⋮` para editar o eliminar el proyecto
+
+---
+
+## Gestión de proyectos
+
+### Crear un proyecto
+
+<Steps>
+  <Step title="Haz clic en Nuevo Proyecto">
+    Encuéntralo en la esquina superior derecha del Home.
+  </Step>
+  <Step title="Completa el nombre y la descripción">
+    El nombre es obligatorio. La descripción es opcional, pero te ayudará a identificar el proyecto rápidamente.
+  </Step>
+  <Step title="Confirma">
+    El proyecto aparece de inmediato en la lista y ya está listo para recibir tareas y componentes.
+  </Step>
+</Steps>
+
+### Editar un proyecto
+
+Pasa el cursor sobre el proyecto, haz clic en `⋮` y elige **Editar**. Modifica el nombre o la descripción y confirma los cambios.
+
+<Note>
+  Solo puedes editar proyectos reales. El proyecto **"Todos"** es un proyecto virtual y no admite edición.
+</Note>
+
+### Eliminar un proyecto
+
+Abre el menú `⋮` del proyecto → selecciona **Eliminar** (en rojo) → confirma la acción.
+
+<Warning>
+  Al eliminar un proyecto, los **componentes** asignados regresan automáticamente al proyecto "Todos". Sin embargo, las **tareas** se eliminan de forma permanente e irreversible junto con el proyecto.
+</Warning>
+
+---
+
+## Detalle de proyecto
+
+Al hacer clic en cualquier proyecto entras a su vista de detalle, dividida en dos secciones principales:
+
+<CardGroup cols={2}>
+  <Card title="Tareas" icon="list-check">
+    Kanban o lista de issues asignados al proyecto. Gestiona el trabajo de tu equipo con estados, prioridades y fechas límite.
+  </Card>
+  <Card title="Componentes" icon="cubes">
+    Tabla con todas las Apps, Workflows, Tablas y Agents del proyecto. Accede, mueve o elimina cada componente desde aquí.
+  </Card>
+</CardGroup>
+
+---
+
+## Tareas
+
+Gestiona el trabajo de tu equipo directamente dentro de cada proyecto.
+
+### Estados disponibles
+
+Cada tarea puede estar en uno de estos cinco estados:
+
+| Estado | Descripción |
+|---|---|
+| **Backlog** | Tarea identificada pero sin prioridad inmediata |
+| **Todo** | Lista para ser tomada por el equipo |
+| **In Progress** | En desarrollo activo |
+| **Done** | Completada |
+| **Cancelled** | Descartada sin completar |
+
+### Vistas
+
+- **Kanban** — tarjetas agrupadas por estado, arrastrables entre columnas para actualizar el estado al instante.
+- **Lista** — tabla con todas las columnas (título, asignado, prioridad, fecha límite) para una vista más compacta.
+
+### Crear una tarea
+
+<Steps>
+  <Step title="Haz clic en + Nueva tarea">
+    Encuéntralo en la parte superior de cualquier columna del Kanban o en el encabezado de la vista Lista.
+  </Step>
+  <Step title="Define el título y los campos">
+    Completa el título (obligatorio) y los campos opcionales: descripción, prioridad, persona asignada y fecha límite.
+  </Step>
+  <Step title="Confirma">
+    La tarea aparece de inmediato en el estado seleccionado y ya es visible para todo el equipo.
+  </Step>
+</Steps>
+
+<Tip>
+  Puedes referenciar Builds (Apps, Workflows, etc.) dentro de una tarea para enlazar directamente la gestión operativa con el artefacto de software que la tarea describe.
+</Tip>
+
+---
+
+## Componentes
+
+Dentro del detalle de un proyecto, la sección de **Componentes** lista todas las Apps, Workflows, Tablas y Agents asignados a ese proyecto.
+
+### Filtros rápidos
+
+Usa los filtros en la parte superior para ver solo el tipo de componente que necesitas:
+
+| Filtro | Qué muestra |
+|---|---|
+| **Todos** | Todos los componentes del proyecto |
+| **Apps** | Solo interfaces visuales |
+| **Workflows** | Solo automatizaciones |
+| **Tablas** | Solo bases de datos |
+| **Agents** | Solo agentes de IA |
+
+<Note>
+  Un filtro solo aparece si el proyecto tiene al menos un componente de ese tipo.
+</Note>
+
+### Acciones por componente
+
+Al hacer hover sobre una fila aparece el botón `⋮` con las siguientes opciones:
+
+| Acción | Disponible en | Descripción |
+|---|---|---|
+| **Editar** | Solo Apps | Abre directamente el editor de la App |
+| **Mover** | Todos los tipos | Cambia el componente a otro proyecto |
+| **Eliminar** | Todos los tipos | Elimina el componente de forma permanente (irreversible) |
+
+### Abrir un componente
+
+Haz clic en cualquier fila o en el botón **→** para ir directamente al editor del componente: App Builder, editor de Workflows, editor de Tablas o editor de Agents.
+
+---
+
+## El proyecto "Todos"
+
+<Card title='¿Qué es el proyecto "Todos"?' icon="globe">
+  **"Todos"** (ALL) es un proyecto virtual que existe en todos los workspaces. Agrupa todos los componentes del workspace independientemente del proyecto al que pertenezcan, incluidos los componentes sin proyecto asignado.
+</Card>
+
+### Casos de uso
+
+- Encontrar un componente rápidamente cuando no recuerdas en qué proyecto está.
+- Identificar y mover componentes huérfanos (sin proyecto) a un proyecto real.
+- Obtener una vista general de todos los componentes del workspace de un vistazo.
+
+### Limitaciones
+
+- No puedes crear tareas en "Todos".
+- No puedes editarlo ni eliminarlo.
+- Los componentes nuevos creados sin proyecto asignado aparecen aquí automáticamente.
+
+---
+
+## Próximos pasos
+
+<CardGroup cols={2}>
+  <Card title="App Builder" icon="window" href="/componentes/app-builder">
+    Construye tu primera aplicación web con IA desde cero.
+  </Card>
+  <Card title="Tables" icon="table" href="/componentes/tables">
+    Crea tablas relacionales y conéctalas a tus Apps y Workflows.
+  </Card>
+</CardGroup>

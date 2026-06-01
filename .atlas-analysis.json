@@ -1,0 +1,69 @@
+{
+  "projectType": "saas",
+  "projectName": "Puente OS",
+  "projectDescription": "Puente OS es la plataforma que unifica gestión operativa (proyectos, tareas, ciclos) y construcción de software interno (apps, tablas, workflows y agentes IA) en un solo workspace.",
+  "theme": "aspen",
+  "primaryColor": "#1be39b",
+  "lightColor": "#0c8c5c",
+  "darkColor": "#040404",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentación",
+        "groups": [
+          {
+            "group": "Empezar",
+            "pages": [
+              "introduction",
+              "quickstart"
+            ]
+          },
+          {
+            "group": "Conceptos",
+            "pages": [
+              "essentials/conceptos",
+              "essentials/glosario"
+            ]
+          },
+          {
+            "group": "Componentes",
+            "pages": [
+              "componentes/menu",
+              "componentes/app-builder",
+              "componentes/tables",
+              "componentes/workflows",
+              "componentes/agents"
+            ]
+          },
+          {
+            "group": "Recursos",
+            "pages": [
+              "recursos/atajos",
+              "recursos/faq"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Menu — navegación central de workspace con proyectos, tareas Kanban y ciclos",
+    "App Builder — constructor de apps web con IA (React/TypeScript) en lenguaje natural",
+    "Tables — editor de tablas dinámicas con tipos de columna, filtros, importación CSV y asistente IA",
+    "Workflows — automatizaciones visuales con triggers (manual, webhook, cron), nodos Python, HTTP y agentes IA",
+    "Agents — agentes IA conversacionales con widget embebible en cualquier sitio web",
+    "Jerarquía Workspace › Teams › Projects › Issues/Builds para operaciones e iniciativas cross-team",
+    "Sistema de variables {{ }} para pasar datos entre nodos de workflow",
+    "Permisos por rol (Admin, Member, Guest) y por componente"
+  ],
+  "publicApiSurface": [
+    "Trigger Webhook: POST https://api.puente.app/workflows/{id}/webhook",
+    "Widget de agente: window.ChatWidgetConfig + script embebible",
+    "Exportación de datos: tablas (CSV), workflows (JSON), apps (ZIP)",
+    "Integración con tablas desde App Builder (tab Datos)",
+    "Nodo HTTP en Workflows (import desde cURL)",
+    "Trigger tipos: Manual, Webhook, Schedule (cron)",
+    "Roles de acceso: Admin, Member, Guest",
+    "Integraciones nativas: HTTP, Email, Slack, Google Sheets, Notion, Postgres/MySQL, Webhooks"
+  ]
+}

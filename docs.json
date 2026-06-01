@@ -1,0 +1,78 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "aspen",
+  "name": "Puente OS",
+  "colors": {
+    "primary": "#1be39b",
+    "light": "#0c8c5c",
+    "dark": "#040404"
+  },
+  "favicon": "https://media.brand.dev/26d46f3d-dd05-44da-865d-61a4f9c59cdb.jpg",
+  "logo": {
+    "light": "https://media.brand.dev/c2ac8bb2-e752-4dff-ae87-539ff23415e2.svg",
+    "dark": "https://media.brand.dev/c2ac8bb2-e752-4dff-ae87-539ff23415e2.svg",
+    "href": "https://puente.app"
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Soporte",
+        "href": "mailto:soporte@puente.app"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Abrir Puente",
+      "href": "https://app.puente.app"
+    }
+  },
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentación",
+        "groups": [
+          {
+            "group": "Empezar",
+            "pages": [
+              "introduction",
+              "quickstart"
+            ]
+          },
+          {
+            "group": "Conceptos",
+            "pages": [
+              "essentials/conceptos",
+              "essentials/glosario"
+            ]
+          },
+          {
+            "group": "Componentes",
+            "pages": [
+              "componentes/menu",
+              "componentes/app-builder",
+              "componentes/tables",
+              "componentes/workflows",
+              "componentes/agents"
+            ]
+          },
+          {
+            "group": "Recursos",
+            "pages": [
+              "recursos/atajos",
+              "recursos/faq"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "footer": {
+    "socials": {
+      "linkedin": "https://www.linkedin.com/company/puente-os",
+      "x": "https://x.com/puenteos"
+    }
+  },
+  "search": {
+    "prompt": "Buscar en la documentación..."
+  }
+}

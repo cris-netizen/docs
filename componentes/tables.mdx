@@ -1,0 +1,239 @@
+---
+title: "Tables: base de datos visual con asistente IA integrado"
+sidebarTitle: "Tables"
+description: "Tablas con columnas tipadas, filtros avanzados, importación CSV y asistente IA integrado — conectadas nativamente a tus Apps y Workflows en Puente OS."
+icon: "table"
+---
+
+**Tables** es el módulo de datos persistentes de Puente OS. Crea tablas con columnas tipadas, filtra y ordena registros en segundos, importa datasets desde CSV y consulta tus datos con un asistente IA sin escribir una sola línea de código. Si ya usas Airtable, encontrarás la experiencia familiar — con la ventaja de que tus tablas están integradas nativamente con tus Apps y Workflows en el mismo workspace.
+
+---
+
+## Crear una tabla
+
+<Steps>
+  <Step title="Abre Tables">
+    Ve al panel de **Componentes** de tu proyecto, haz clic en **+ Nuevo** y selecciona **Tabla**.
+  </Step>
+  <Step title="Define las columnas">
+    Haz clic en el botón **`+`** del encabezado para agregar la primera columna. Escribe el nombre, elige el tipo y confirma.
+  </Step>
+  <Step title="Agrega más columnas">
+    Repite el paso anterior para cada columna que necesites. También puedes agregar todas las columnas de una sola vez importando un CSV.
+  </Step>
+</Steps>
+
+<Note>
+  El nombre interno (`key`) se genera automáticamente en **snake_case** a partir del nombre que escribas. Puedes cambiar el nombre visible (label) en cualquier momento sin afectar ninguna integración existente.
+</Note>
+
+---
+
+## Tipos de columna
+
+| Tipo | Cómo se muestra | Cómo se edita | Ejemplo |
+|---|---|---|---|
+| **Texto** | Texto plano | Input inline | `"MacBook Pro"` |
+| **Número** | Alineado a la derecha | Input numérico | `2499.99` |
+| **Fecha** | `DD/MM/YYYY` | Date picker | `2026-02-15` |
+| **Checkbox** | Casilla centrada | Toggle directo | `true` / `false` |
+| **Select** | Badge de color | Dropdown con opciones | `"Electrónica"` |
+
+### Sobre el tipo `select`
+
+- Define las opciones al crear o editar la columna; puedes agregar, renombrar o eliminar opciones en cualquier momento.
+- Solo se aceptan valores que estén dentro de las opciones definidas.
+- Cada inserción o actualización de fila es validada automáticamente; los valores fuera del conjunto permitido son rechazados.
+
+---
+
+## Importar desde CSV
+
+<Steps>
+  <Step title="Haz clic en Import CSV">
+    Encuentra el botón **Import CSV** en la toolbar de la tabla. Si la tabla está vacía, también verás la opción **📄 Crear desde CSV** en el estado vacío.
+  </Step>
+  <Step title="Sube el archivo">
+    Arrastra el archivo CSV al área indicada o haz clic para abrirlo desde tu explorador. El sistema acepta delimitadores `,` y `;`.
+  </Step>
+  <Step title="Revisa las columnas detectadas">
+    Puente OS detecta automáticamente el tipo de cada columna y muestra una vista previa con las primeras 5 filas. Corrige cualquier tipo antes de continuar.
+  </Step>
+  <Step title="Confirma la importación">
+    Haz clic en **Confirmar**. La tabla se crea y todas las filas se cargan en bloque.
+  </Step>
+</Steps>
+
+<Warning>
+  El límite por importación es de **10,000 filas**. Si tu dataset es mayor, divídelo en varios archivos e impórtalos por partes.
+</Warning>
+
+### Detección automática de tipos
+
+| Tipo detectado | Patrón reconocido |
+|---|---|
+| `boolean` | `true` / `false` / `si` / `no` / `1` / `0` |
+| `number` | Todos los valores de la columna son numéricos |
+| `date` | Formato `YYYY-MM-DD` o `DD/MM/YYYY` |
+| `text` | Fallback — cualquier otro caso |
+
+---
+
+## Trabajar con filas
+
+### Agregar una fila
+
+Haz clic en **+ New Row** en la toolbar. Se abre un modal con todos los campos de la tabla. Completa los valores y confirma.
+
+### Editar una celda
+
+Haz clic directamente sobre cualquier celda para activar el modo de edición. El control depende del tipo: input de texto, input numérico, dropdown, toggle o date picker. Confirma con `Enter` o haciendo clic fuera de la celda.
+
+### Eliminar filas
+
+| Caso | Cómo hacerlo |
+|---|---|
+| **Una sola fila** | Haz clic en el ícono 🗑 al final de la fila y confirma en el diálogo. |
+| **Varias filas** | Selecciona las filas con los checkboxes de la izquierda → haz clic en **Eliminar seleccionadas** → confirma. |
+
+<Warning>
+  La eliminación de filas es **irreversible**. No existe papelera de reciclaje ni forma de recuperar los datos eliminados.
+</Warning>
+
+---
+
+## Trabajar con columnas
+
+### Agregar una columna
+
+Haz clic en el botón **`+`** al final del encabezado. Completa el nombre, elige el tipo y, si elegiste `select`, define las opciones disponibles.
+
+### Redimensionar
+
+Arrastra el borde derecho del encabezado de cualquier columna hasta alcanzar el ancho que necesitas.
+
+### Reordenar
+
+Arrastra el encabezado de una columna y suéltalo en la posición deseada. El nuevo orden se guarda automáticamente.
+
+### Ocultar y mostrar columnas
+
+Haz clic en **Columns** en la toolbar y activa o desactiva cada columna de la lista. Las columnas ocultas no se eliminan; solo desaparecen de la vista y de la exportación CSV.
+
+---
+
+## Búsqueda, filtros y orden
+
+### Búsqueda global
+
+Escribe en el campo **Search…** de la toolbar para buscar en todas las columnas visibles al mismo tiempo. La búsqueda es instantánea.
+
+### Filtros avanzados
+
+Haz clic en **Filter** y agrega condiciones con **`+`**. Para cada condición elige la columna y uno de los operadores disponibles:
+
+| Operador | Tipos compatibles | Descripción |
+|---|---|---|
+| `contains` | texto | El valor contiene el texto indicado |
+| `not_contains` | texto | El valor **no** contiene el texto indicado |
+| `is` | todos | Igual exacto al valor indicado |
+| `is_not` | todos | Distinto al valor indicado |
+| `is_empty` | todos | La celda está vacía o es nula |
+| `is_not_empty` | todos | La celda tiene algún valor |
+| `gt` / `gte` | número, fecha | Mayor que / Mayor o igual que |
+| `lt` / `lte` | número, fecha | Menor que / Menor o igual que |
+
+<Tip>
+  Cuando agregas varias condiciones, se combinan con lógica **AND**: solo se muestran las filas que cumplen **todas** las condiciones activas.
+</Tip>
+
+### Ordenamiento
+
+Haz clic en el encabezado de cualquier columna para ordenar. Cada clic cicla entre **ascendente → descendente → sin orden**.
+
+---
+
+## Asistente IA
+
+<Card icon="robot" title="IA integrada en tu tabla">
+  El asistente IA tiene acceso al esquema completo de la tabla y a una muestra de hasta 20 filas reales. Hazle preguntas sobre tus datos en lenguaje natural, sin SQL ni fórmulas.
+</Card>
+
+### Cómo abrirlo
+
+Haz clic en el botón **🤖 IA** en la barra superior derecha. El panel se despliega a la derecha del editor.
+
+### Qué puedes preguntarle
+
+Prueba con consultas como estas:
+
+```
+¿Cuántas filas tienen el precio mayor a 1000?
+¿Qué productos están activos?
+Muéstrame un resumen de los datos.
+¿Qué columnas tiene esta tabla y de qué tipo son?
+```
+
+### Reiniciar el chat
+
+Haz clic en el botón **↺** dentro del panel para borrar el historial y comenzar una conversación nueva.
+
+---
+
+## Exportar a CSV
+
+Haz clic en **Export** en la toolbar. Se descargará un archivo CSV que incluye:
+
+- Los datos **visibles en ese momento** (respetando los filtros y el orden activos).
+- Las columnas en el **orden actual**, excluyendo las columnas ocultas.
+
+---
+
+## Paginación vs. Scroll infinito
+
+| | **Paginación** | **Scroll infinito** |
+|---|---|---|
+| Navegación | Botones Anterior / Siguiente y salto directo a página | El scroll carga más filas automáticamente al llegar al final |
+| Carga inicial | Filas según `pageSize` (por defecto 10) | 3,000 filas |
+| Carga adicional | Al llegar a la última página del lote | Cada vez que llegas al final se cargan 3,000 filas más |
+
+### Configuración de paginación
+
+| Prop | Valor por defecto | Descripción |
+|---|---|---|
+| `pageSize` | `10` | Número de filas por página |
+| `pageSizeOptions` | `[10, 25, 50, 100]` | Opciones disponibles en el selector de tamaño de página |
+
+---
+
+## Conectar con Apps y Workflows
+
+Las tablas son ciudadanos de primera clase en el workspace de Puente OS. Cualquier App o Workflow puede leer y escribir en ellas.
+
+<CardGroup cols={2}>
+  <Card title="Conectar a una App" icon="window" href="/componentes/app-builder#conectar-tablas-dinamicas">
+    Desde la pestaña **Datos** del App Builder, selecciona tu tabla y mapea las columnas a los componentes de la app. Tus datos reales reemplazan los datos de prueba de inmediato.
+  </Card>
+  <Card title="Trigger en un Workflow" icon="diagram-project" href="/componentes/workflows">
+    Configura un Workflow para que se dispare automáticamente cuando se agregue, modifique o elimine una fila en tu tabla.
+  </Card>
+</CardGroup>
+
+---
+
+## Preguntas frecuentes
+
+<AccordionGroup>
+  <Accordion title="¿Hay un límite de filas por tabla?">
+    No existe un límite duro en el número de filas de una tabla. La importación desde CSV sí está limitada a 10,000 filas por archivo. Si trabajas con datasets de millones de registros, escríbenos a soporte para evaluar opciones.
+  </Accordion>
+  <Accordion title="¿Puedo restaurar una fila eliminada?">
+    No. La eliminación es irreversible y no hay papelera de reciclaje. Si necesitas auditoría o soft-delete, agrega una columna `estado` de tipo `select` con un valor `archivado` y filtra en lugar de eliminar.
+  </Accordion>
+  <Accordion title="¿Qué ocurre si cambio el tipo de una columna que ya tiene datos?">
+    Puente OS intenta convertir los valores existentes al nuevo tipo. Si algún valor no se puede convertir, queda como `null` y el sistema te lo notifica antes de que confirmes el cambio.
+  </Accordion>
+  <Accordion title="¿Las tablas tienen historial de cambios?">
+    No en el editor visual. Si necesitas auditoría, configura un Workflow con un trigger en `rowAdd` o `cellChange` que guarde cada cambio en una tabla de historial separada.
+  </Accordion>
+</AccordionGroup>
